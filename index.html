@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice Eko Pandawa</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+  body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #eef2f5;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 0;
+  }
+
+  .preview-wrapper {
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+
+  .scale-container {
+    transform: scale(0.9);
+    transform-origin: top center;
+    transition: transform 0.3s ease;
+  }
+
+  .card {
+    background: #fff;
+    width: 794px; /* A4 width */
+    min-height: 1123px; /* A4 height */
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  }
+
+  @media (max-width: 768px) {
+    .scale-container { transform: scale(0.5); }
+  }
+
+  /* HEADER */
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .logo-box {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .logo-box img {
+    width: 100%;
+    max-width: 250px;
+    object-fit: contain;
+  }
+  .company-info {
+    width: 65%;
+    text-align: left;
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .company-name {
+    text-align: center;
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* INVOICE TITLE ROW */
+  .invoice-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 15px;
+    margin-top: -10px;
+  }
+  .title {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 2px;
+  }
+  .kepada-box {
+    text-align: center;
+  }
+  .kepada-title {
+    font-size: 32px;
+    font-weight: 900;
+  }
+
+  /* INPUT STYLING */
+  input, textarea {
+    border: 1px dashed transparent;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    background: transparent;
+    transition: border 0.2s;
+    resize: none;
+  }
+  input:hover, input:focus, textarea:hover, textarea:focus {
+    border-bottom: 1px dashed #aaa;
+  }
+
+  /* TABLE STYLING */
+  .table-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* WATERMARK KENDARAAN */
+  .watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background-image: url('https://via.placeholder.com/600x300?text=WATERMARK+BUS');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    z-index: 0;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    position: relative;
+    z-index: 1;
+    border: 1.5px solid #000;
+  }
+  .table th {
+    background: #7ce2ea; 
+    color: #000;
+    padding: 12px 5px;
+    border: 1px solid #000;
+    font-size: 13px;
+    font-weight: 900;
+  }
+  .table td {
+    border: 1px solid #000;
+    padding: 5px;
+    height: 40px; 
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  /* FOOTER / PAYMENT SECTION */
+  .footer-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  .payment-info {
+    width: 55%;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .payment-title {
+    font-weight: 900;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .bank-details {
+    margin-bottom: 15px;
+  }
+  
+  .total-and-sign {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .total-box {
+    display: flex;
+    border: 2px solid #000;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .total-label {
+    background: #7ce2ea;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 12px;
+    border-right: 2px solid #000;
+    padding: 10px;
+    text-align: center;
+  }
+  .total-value {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 900;
+    padding: 10px;
+  }
+
+  .signature {
+    text-align: center;
+    margin-right: 30px;
+    font-size: 14px;
+  }
+  .signature-img {
+    height: 60px;
+    margin: 10px 0;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* BUTTON */
+  .btn {
+    padding: 15px 30px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background 0.2s;
+    margin-bottom: 40px;
+  }
+  .btn:hover { background: #1d4ed8; }
+  .hide-on-print { display: block; margin-top: 5px; }
+
+  /* =========================================
+     CSS KHUSUS UNTUK MEMPERCEPAT PRINT INSTAN
+     ========================================= */
+  @media print {
+    body {
+      background: white;
+      margin: 0;
+      padding: 0;
+      align-items: flex-start;
+    }
+    .preview-wrapper {
+      padding: 0;
+      overflow: visible;
+    }
+    .scale-container {
+      transform: scale(1) !important; /* Kembalikan ke ukuran asli saat print */
+    }
+    .card {
+      box-shadow: none; /* Hilangkan bayangan saat disimpan PDF */
+      padding: 20px;
+    }
+    /* Sembunyikan tombol dan input upload saat diprint */
+    .btn, .hide-on-print {
+      display: none !important;
+    }
+    /* Pastikan warna tabel cyan tetap muncul saat di-print PDF */
+    .table th, .total-label {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    /* Hilangkan garis putus-putus pada input saat print */
+    input, textarea {
+      border: none !important;
+    }
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="preview-wrapper">
+  <div class="scale-container" id="scaleWrapper">
+    <div class="card" id="invoice">
+
+      <!-- HEADER -->
+      <div class="header-top">
+        <div class="logo-box">
+          <img id="logoPreview" src="https://via.placeholder.com/300x120?text=LOGO+EKO+PANDAWA">
+          <input type="file" id="uploadInput" class="hide-on-print" onchange="uploadLogo(event)" accept="image/*" style="font-size: 10px;">
+        </div>
+        
+        <div class="company-info">
+          <div class="company-name">EKO PANDAWA TRANS</div>
+          <div>
+            Jln:kampung malang tengah 1/20 Surabaya<br>
+            Telp:081259006760<br>
+            Email:ekopandawa32@gmail.com
+          </div>
+        </div>
+      </div>
+
+      <!-- INVOICE TITLE & KEPADA -->
+      <div class="invoice-row">
+        <div class="title">INVOICE</div>
+        <div class="kepada-box">
+          <div class="kepada-title">kepada</div>
+          <input value="PT MANDIRI" style="font-size: 18px; font-weight: 900; width: 250px;">
+        </div>
+      </div>
+
+      <!-- TABLE AREA -->
+      <div class="table-container">
+        <div class="watermark"></div> 
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 20%;">KETERANGAN</th>
+              <th style="width: 15%;">TANGGAL</th>
+              <th style="width: 15%;">TUJUAN</th>
+              <th style="width: 8%;">HARI</th>
+              <th style="width: 10%;">JUMLAH<br>UNIT</th>
+              <th style="width: 17%;">HARGA</th>
+              <th style="width: 15%;">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Baris Data Utama -->
+            <tr>
+              <td>
+                <input value="Hiace premio" style="font-weight: 700;">
+              </td>
+              <td><input value="13/4-15/4"></td>
+              <td><input value="dlm kota"></td>
+              <td><input id="hari" value="3" type="number" min="1" oninput="hitung()" style="font-size: 18px;"></td>
+              <td><input id="unit" value="" type="number" min="1" oninput="hitung()"></td>
+              <td><input id="harga" value="1.700.000" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
+              <td id="total" style="font-weight: 900; font-size: 18px; text-align: center;">5.100.000</td>
+            </tr>
+            <!-- Baris Kosong dengan tag input agar bisa diisi manual -->
+            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer-section">
+        <!-- Kiri: Pembayaran -->
+        <div class="payment-info">
+          <div class="payment-title">METODE PEMBAYARAN</div>
+          <div class="bank-details">
+            BRI 115801002016534<br>A/N EXTA
+          </div>
+          <div class="bank-details">
+            BCA 5550342181<br>A/N EXTAJOYO
+          </div>
+          
+          <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <div>
+              <strong>Konfirmasi Pembayaran</strong><br>
+              <span style="display: inline-flex; align-items: center; gap: 5px; margin-top: 3px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg"><path d="M12.031 0C5.385 0 0 5.385 0 12.031C0 14.156 0.554 16.196 1.551 17.986L0.264 22.68L5.059 21.424C6.786 22.316 8.718 22.8 10.741 22.8C17.387 22.8 22.771 17.415 22.771 10.77C22.771 4.124 17.387 0 10.741 0H12.031ZM12.031 20.893C10.156 20.893 8.367 20.395 6.812 19.47L6.463 19.263L3.523 20.038L4.316 17.165L4.088 16.802C3.064 15.156 2.516 13.208 2.516 11.168C2.516 5.86 6.829 1.548 12.136 1.548C17.444 1.548 21.757 5.86 21.757 11.168C21.757 16.476 17.444 20.789 12.136 20.789H12.031ZM17.419 14.615C17.13 14.471 15.705 13.769 15.436 13.666C15.168 13.562 14.971 13.511 14.774 13.801C14.577 14.09 14.029 14.742 13.864 14.949C13.698 15.156 13.533 15.187 13.243 15.042C12.954 14.897 11.996 14.587 10.862 13.575C9.979 12.788 9.385 11.815 9.22 11.525C9.054 11.236 9.204 11.08 9.349 10.936C9.484 10.801 9.639 10.605 9.784 10.439C9.929 10.274 9.979 10.15 10.073 9.943C10.166 9.736 10.114 9.56 10.042 9.415C9.969 9.27 9.385 7.822 9.137 7.222C8.899 6.633 8.661 6.716 8.485 6.705C8.32 6.695 8.123 6.695 7.926 6.695C7.73 6.695 7.409 6.768 7.14 7.057C6.871 7.347 6.115 8.05 6.115 9.489C6.115 10.927 7.171 12.303 7.316 12.499C7.461 12.696 9.366 15.633 12.302 16.906C13.006 17.216 13.555 17.402 13.99 17.537C14.694 17.764 15.335 17.733 15.843 17.65C16.412 17.557 17.603 16.916 17.851 16.202C18.099 15.488 18.099 14.878 18.027 14.743C17.944 14.598 17.747 14.516 17.458 14.371H17.419Z"/></svg>
+                081259006760
+              </span>
+            </div>
+            <div>
+              <strong style="font-size: 15px;">Mandiri</strong><br>
+              1430035362043<br>EXTA JOYO
+            </div>
+          </div>
+        </div>
+
+        <!-- Kanan: Total & Tanda Tangan -->
+        <div class="total-and-sign">
+          <div class="total-box">
+            <div class="total-label">TOTAL KESELURUHAN</div>
+            <div class="total-value" id="grandTotal">5.100.000</div>
+          </div>
+          
+          <div class="signature">
+            Hormat Kami,<br>
+            <div class="signature-img">Exta</div>
+            <strong>Exta</strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOMBOL MENGGUNAKAN FITUR PRINT BAWAAN YANG INSTAN -->
+<button class="btn" onclick="window.print()" id="downloadBtn">Cetak / Simpan PDF Instan</button>
+
+<script>
+function formatRupiah(input){
+  let angka = input.value.replace(/[^\d]/g,"");
+  if(angka === "") {
+    input.value = "";
+    return;
+  }
+  input.value = new Intl.NumberFormat("id-ID").format(angka);
+}
+
+function hitung(){
+  let hari = parseInt(document.getElementById('hari').value) || 0;
+  let unit = parseInt(document.getElementById('unit').value) || 1; 
+  let harga = parseInt(document.getElementById('harga').value.replace(/[^\d]/g,"")) || 0;
+  
+  let total = hari * unit * harga;
+  let rupiah = new Intl.NumberFormat("id-ID").format(total);
+
+  document.getElementById('total').innerText = rupiah;
+  document.getElementById('grandTotal').innerText = rupiah;
+}
+
+function uploadLogo(event){
+  const file = event.target.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = function(){
+      document.getElementById('logoPreview').src = reader.result;
+    }
+    reader.readAsDataURL(file);
+  }
+}
+
+// Skrip lambat html2canvas sudah dihapus, diganti dengan window.print() yang instan di tombol atas
+
+// Inisialisasi Kalkulasi saat pertama kali dibuka
+hitung();
+</script>
+
+</body>
+</html>
