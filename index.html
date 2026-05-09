@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Eko Pandawa</title>
-<!-- Menggunakan html2pdf.js yang lebih cepat dan stabil untuk Live Server -->
+<!-- html2pdf.js untuk proses unduhan PDF yang kompatibel dengan HP dan Live Server -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
@@ -119,7 +119,7 @@
     border-bottom: 1px dashed #aaa;
   }
 
-  /* Class khusus saat di-download agar border input hilang */
+  /* Sembunyikan garis putus-putus secara paksa saat didownload */
   .no-border {
     border: none !important;
   }
@@ -313,6 +313,7 @@
             <tr>
               <td>
                 <input value="Hiace premio" style="font-weight: 700;">
+                <input value="(all in)" style="font-weight: 400; font-size: 13px;">
               </td>
               <td><input value="13/4-15/4"></td>
               <td><input value="dlm kota"></td>
@@ -421,38 +422,38 @@ function downloadPDF(){
   const uploadInput = document.getElementById('uploadInput');
   const inputs = document.querySelectorAll('input');
 
-  // Efek Loading pada tombol
-  btn.innerText = "Mendownload...";
+  // Berikan efek loading pada tombol agar user tahu sedang diproses
+  btn.innerText = "Mengunduh...";
   btn.disabled = true;
   uploadInput.style.display = 'none';
 
-  // Hilangkan border putus-putus pada input saat di-download
+  // MATIKAN BAYANGAN (Ini penyebab utama HP ngelag saat download)
+  element.style.boxShadow = 'none';
   inputs.forEach(input => input.classList.add('no-border'));
 
-  // Kembalikan ukuran asli sementara untuk di-render oleh html2pdf
+  // Kembalikan ukuran ke asli untuk diproses (wajib untuk PDF rapi)
   const originalTransform = scaleWrapper.style.transform;
   scaleWrapper.style.transform = 'scale(1)';
 
-  // Pengaturan html2pdf
+  // Setting html2pdf: scale diturunkan ke 1.5 (Jauh lebih ringan dan cepat diproses HP)
   const opt = {
     margin:       0,
     filename:     'Invoice-Eko-Pandawa.pdf',
-    image:        { type: 'jpeg', quality: 1 },
-    html2canvas:  { scale: 2, useCORS: true, logging: false },
+    image:        { type: 'jpeg', quality: 0.95 },
+    html2canvas:  { scale: 1.5, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  // Beri sedikit jeda agar DOM ter-update sebelum proses download
-  setTimeout(() => {
-    html2pdf().set(opt).from(element).save().then(() => {
-      // Kembalikan tampilan seperti semula setelah sukses download
-      scaleWrapper.style.transform = originalTransform;
-      uploadInput.style.display = 'block';
-      inputs.forEach(input => input.classList.remove('no-border'));
-      btn.innerText = "Download File PDF";
-      btn.disabled = false;
-    });
-  }, 300);
+  // Mulai proses (tanpa setTimeout supaya tidak ada waktu tunggu buatan)
+  html2pdf().set(opt).from(element).save().then(() => {
+    // Kembalikan tampilan seperti semula setelah selesai
+    scaleWrapper.style.transform = originalTransform;
+    element.style.boxShadow = ''; // Mengembalikan bayangan box
+    uploadInput.style.display = 'block';
+    inputs.forEach(input => input.classList.remove('no-border'));
+    btn.innerText = "Download File PDF";
+    btn.disabled = false;
+  });
 }
 
 // Inisialisasi Kalkulasi saat pertama kali dibuka
