@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Eko Pandawa</title>
-<!-- html2pdf.js untuk proses unduhan PDF yang kompatibel dengan HP dan Live Server -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
@@ -114,12 +113,12 @@
     background: transparent;
     transition: border 0.2s;
     resize: none;
+    box-sizing: border-box;
   }
   input:hover, input:focus, textarea:hover, textarea:focus {
     border-bottom: 1px dashed #aaa;
   }
 
-  /* Sembunyikan garis putus-putus secara paksa saat didownload */
   .no-border {
     border: none !important;
   }
@@ -131,7 +130,6 @@
     margin-bottom: 20px;
   }
   
-  /* WATERMARK KENDARAAN */
   .watermark {
     position: absolute;
     top: 50%;
@@ -308,42 +306,69 @@
               <th style="width: 15%;">TOTAL</th>
             </tr>
           </thead>
-          <tbody>
-            <!-- Baris Data Utama -->
-            <tr>
+          <tbody id="invoiceTableBody">
+            <!-- BARIS 1 -->
+            <tr class="item-row">
               <td>
                 <input value="Hiace premio" style="font-weight: 700;">
               </td>
               <td><input value="13/4-15/4"></td>
               <td><input value="dlm kota"></td>
-              <td><input id="hari" value="3" type="number" min="1" oninput="hitung()" style="font-size: 18px;"></td>
-              <td><input id="unit" value="" type="number" min="1" oninput="hitung()"></td>
-              <td><input id="harga" value="1.700.000" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
-              <td id="total" style="font-weight: 900; font-size: 18px; text-align: center;">5.100.000</td>
+              <td><input class="hari" value="3" type="number" min="0" oninput="hitung()" style="font-size: 18px;"></td>
+              <td><input class="unit" value="" type="number" min="0" oninput="hitung()"></td>
+              <td><input class="harga" value="1.700.000" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
+              <td class="total-row" style="font-weight: 900; font-size: 18px; text-align: center;"></td>
             </tr>
-            <!-- Baris Kosong dengan tag input agar bisa diisi manual -->
-            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-            <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+            <!-- BARIS 2 -->
+            <tr class="item-row">
+              <td><input></td><td><input></td><td><input></td>
+              <td><input class="hari" type="number" min="0" oninput="hitung()" style="font-size: 18px;"></td>
+              <td><input class="unit" type="number" min="0" oninput="hitung()"></td>
+              <td><input class="harga" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
+              <td class="total-row" style="font-weight: 900; font-size: 18px; text-align: center;"></td>
+            </tr>
+            <!-- BARIS 3 -->
+            <tr class="item-row">
+              <td><input></td><td><input></td><td><input></td>
+              <td><input class="hari" type="number" min="0" oninput="hitung()" style="font-size: 18px;"></td>
+              <td><input class="unit" type="number" min="0" oninput="hitung()"></td>
+              <td><input class="harga" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
+              <td class="total-row" style="font-weight: 900; font-size: 18px; text-align: center;"></td>
+            </tr>
+            <!-- BARIS 4 -->
+            <tr class="item-row">
+              <td><input></td><td><input></td><td><input></td>
+              <td><input class="hari" type="number" min="0" oninput="hitung()" style="font-size: 18px;"></td>
+              <td><input class="unit" type="number" min="0" oninput="hitung()"></td>
+              <td><input class="harga" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
+              <td class="total-row" style="font-weight: 900; font-size: 18px; text-align: center;"></td>
+            </tr>
+            <!-- BARIS 5 -->
+            <tr class="item-row">
+              <td><input></td><td><input></td><td><input></td>
+              <td><input class="hari" type="number" min="0" oninput="hitung()" style="font-size: 18px;"></td>
+              <td><input class="unit" type="number" min="0" oninput="hitung()"></td>
+              <td><input class="harga" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
+              <td class="total-row" style="font-weight: 900; font-size: 18px; text-align: center;"></td>
+            </tr>
+            <!-- BARIS 6 -->
+            <tr class="item-row">
+              <td><input></td><td><input></td><td><input></td>
+              <td><input class="hari" type="number" min="0" oninput="hitung()" style="font-size: 18px;"></td>
+              <td><input class="unit" type="number" min="0" oninput="hitung()"></td>
+              <td><input class="harga" oninput="formatRupiah(this); hitung()" style="font-size: 16px;"></td>
+              <td class="total-row" style="font-weight: 900; font-size: 18px; text-align: center;"></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <!-- FOOTER -->
       <div class="footer-section">
-        <!-- Kiri: Pembayaran -->
         <div class="payment-info">
           <div class="payment-title">METODE PEMBAYARAN</div>
-          <div class="bank-details">
-            BRI 115801002016534<br>A/N EXTA
-          </div>
-          <div class="bank-details">
-            BCA 5550342181<br>A/N EXTAJOYO
-          </div>
-          
+          <div class="bank-details">BRI 115801002016534<br>A/N EXTA</div>
+          <div class="bank-details">BCA 5550342181<br>A/N EXTAJOYO</div>
           <div style="display: flex; align-items: flex-start; gap: 20px;">
             <div>
               <strong>Konfirmasi Pembayaran</strong><br>
@@ -353,17 +378,15 @@
               </span>
             </div>
             <div>
-              <strong style="font-size: 15px;">Mandiri</strong><br>
-              1430035362043<br>EXTA JOYO
+              <strong style="font-size: 15px;">Mandiri</strong><br>1430035362043<br>EXTA JOYO
             </div>
           </div>
         </div>
 
-        <!-- Kanan: Total & Tanda Tangan -->
         <div class="total-and-sign">
           <div class="total-box">
             <div class="total-label">TOTAL KESELURUHAN</div>
-            <div class="total-value" id="grandTotal">5.100.000</div>
+            <div class="total-value" id="grandTotal">0</div>
           </div>
           
           <div class="signature">
@@ -390,17 +413,36 @@ function formatRupiah(input){
   input.value = new Intl.NumberFormat("id-ID").format(angka);
 }
 
+// FUNGSI HITUNG BARU: Membaca semua baris dan menjumlahkannya
 function hitung(){
-  let hari = parseInt(document.getElementById('hari').value) || 0;
-  // Tetap dihitung meskipun input unit kosong (dianggap 1)
-  let unit = parseInt(document.getElementById('unit').value) || 1; 
-  let harga = parseInt(document.getElementById('harga').value.replace(/[^\d]/g,"")) || 0;
-  
-  let total = hari * unit * harga;
-  let rupiah = new Intl.NumberFormat("id-ID").format(total);
+  let grandTotalValue = 0;
+  const rows = document.querySelectorAll('.item-row');
 
-  document.getElementById('total').innerText = rupiah;
-  document.getElementById('grandTotal').innerText = rupiah;
+  rows.forEach(row => {
+    let hari = parseInt(row.querySelector('.hari').value) || 0;
+    let unitInput = row.querySelector('.unit').value;
+    let harga = parseInt(row.querySelector('.harga').value.replace(/[^\d]/g,"")) || 0;
+    
+    // Jika unit kosong tapi hari/harga diisi, otomatis hitung sebagai 1 unit
+    let unit = parseInt(unitInput);
+    if (isNaN(unit)) {
+      unit = (hari > 0 || harga > 0) ? 1 : 0;
+    }
+
+    let totalPerBaris = hari * unit * harga;
+    grandTotalValue += totalPerBaris;
+
+    // Tampilkan hasil di baris tersebut jika lebih dari 0 (jika 0 biarkan kosong agar rapi)
+    let totalCell = row.querySelector('.total-row');
+    if (totalPerBaris > 0) {
+      totalCell.innerText = new Intl.NumberFormat("id-ID").format(totalPerBaris);
+    } else {
+      totalCell.innerText = "";
+    }
+  });
+
+  // Update Total Keseluruhan
+  document.getElementById('grandTotal').innerText = new Intl.NumberFormat("id-ID").format(grandTotalValue);
 }
 
 function uploadLogo(event){
@@ -421,33 +463,28 @@ function downloadPDF(){
   const uploadInput = document.getElementById('uploadInput');
   const inputs = document.querySelectorAll('input');
 
-  // Berikan efek loading pada tombol agar user tahu sedang diproses
-  btn.innerText = "Mengunduh...";
+  btn.innerText = "Mendownload...";
   btn.disabled = true;
   uploadInput.style.display = 'none';
 
-  // MATIKAN BAYANGAN (Ini penyebab utama HP ngelag saat download)
   element.style.boxShadow = 'none';
   inputs.forEach(input => input.classList.add('no-border'));
 
-  // Kembalikan ukuran ke asli untuk diproses (wajib untuk PDF rapi)
   const originalTransform = scaleWrapper.style.transform;
   scaleWrapper.style.transform = 'scale(1)';
 
-  // Setting html2pdf: scale diturunkan ke 1.5 (Jauh lebih ringan dan cepat diproses HP)
+  // SETTING PALING RINGAN UNTUK HP
   const opt = {
     margin:       0,
     filename:     'Invoice-Eko-Pandawa.pdf',
-    image:        { type: 'jpeg', quality: 0.95 },
-    html2canvas:  { scale: 1.5, useCORS: true, logging: false },
+    image:        { type: 'jpeg', quality: 0.8 }, // Kualitas JPEG diturunkan sedikit agar file kecil
+    html2canvas:  { scale: 1, useCORS: true, logging: false }, // Skala 1 sangat ringan untuk memori HP
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  // Mulai proses (tanpa setTimeout supaya tidak ada waktu tunggu buatan)
   html2pdf().set(opt).from(element).save().then(() => {
-    // Kembalikan tampilan seperti semula setelah selesai
     scaleWrapper.style.transform = originalTransform;
-    element.style.boxShadow = ''; // Mengembalikan bayangan box
+    element.style.boxShadow = '';
     uploadInput.style.display = 'block';
     inputs.forEach(input => input.classList.remove('no-border'));
     btn.innerText = "Download File PDF";
@@ -455,7 +492,7 @@ function downloadPDF(){
   });
 }
 
-// Inisialisasi Kalkulasi saat pertama kali dibuka
+// Jalankan fungsi hitung saat halaman pertama kali dibuka
 hitung();
 </script>
 
